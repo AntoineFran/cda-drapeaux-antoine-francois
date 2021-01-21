@@ -1,0 +1,31 @@
+.container-sm{
+    background-color: grey;
+}
+
+.flag {
+    height: 300px;
+}
+
+.white {
+    background-color: white;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+}
+
+.black {
+    background-color: black;
+}
