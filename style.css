@@ -1,9 +1,44 @@
-.container-sm{
+.container-sm {
     background-color: grey;
 }
 
 .flag {
-    height: 300px;
+    height: 400px;
+}
+
+@media all and (min-width: 1199px) {
+    .flag{
+        height: 600px;
+    }
+}
+
+@media all and (max-width: 1199px) {
+    .flag{
+        height: 500px;
+        padding: 5%;
+    }
+}
+
+@media all and (max-width: 991px){
+    .flag {
+        height: 300px;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .flag {
+        height: 200px;
+    }
+}
+
+.column {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
 }
 
 .white {

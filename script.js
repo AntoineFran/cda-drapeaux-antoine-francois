@@ -5,19 +5,28 @@ var indexColors = [0, 0, 0];
 //index of the country to guess:
 var indexCountry = 0;
 
-//colors and index of the right answer for every country:
+//colors, form, and index of the right answer for every country:
 var frenchColors = ['blue', 'white', 'red'];
+var frenchForm = 'row'
 var frenchFlag = [0, 1, 2];
 var belgiumColors = ['black', 'yellow', 'red'];
+var belgiumForm = 'row';
 var belgiumFlag = [0, 1, 2];
+var netherlandsColors = ['blue', 'white', 'red'];
+var netherlandsForm = 'column'
+var netherlandsFlag = [2, 1, 0];
+var germanColors = ['black', 'yellow', 'red'];
+var germanForm = 'column';
+var germanFlag = [0, 2, 1];
 
-//arrays of the countries, their colors, and their flags:
-var countries = ['France', 'Belgium'];
-var countryColors = [frenchColors, belgiumColors];
-var countryFlags = [frenchFlag, belgiumFlag];
+//arrays of the countries, their colors, their form, and their flags:
+var countries = ['France', 'Belgium', 'Netherlands', 'Germany'];
+var countryColors = [frenchColors, belgiumColors, netherlandsColors, germanColors];
+var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm];
+var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag];
 
 $(function(){
-    $('.flag').click(function() {
+    $('.flag-part').click(function() {
         //index of the part of the flag to work on:
         let indexFlag = $(this).attr('number');
         //set the index of the part of the flag which is concerned by the click:
@@ -42,12 +51,14 @@ $(function(){
             if(indexCountry < countries.length - 1){
                 //reset the index and the class:
                 indexColors = [0, 0, 0];
-                $('.flag').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1]).removeClass(countryColors[indexCountry][2]);
+                $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1]).removeClass(countryColors[indexCountry][2]);
+                $('.flag').removeClass(countryForm[indexCountry]);
                 
-                //go to the next country, and display the name and the first colors of the country:
+                //go to the next country, and display the name, the form and the first colors of the country:
                 indexCountry++;
                 document.querySelector('h1').textContent= countries[indexCountry];
-                $('.flag').addClass(countryColors[indexCountry][0])
+                $('.flag-part').addClass(countryColors[indexCountry][0])
+                $('.flag').addClass(countryForm[indexCountry])
             } else {
                 alert('The End')
             }
