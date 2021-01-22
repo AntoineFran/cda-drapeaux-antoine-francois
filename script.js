@@ -34,6 +34,7 @@ function addZero(x) {
 chronoStart();
 
 
+
 //index of the color to show on each part of the flag:
 var indexColors = [0, 0, 0];
 //index of the country to guess:
@@ -59,6 +60,10 @@ var countryColors = [frenchColors, belgiumColors, netherlandsColors, germanColor
 var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm];
 var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag];
 
+//Set the first level:
+setLevel();
+
+
 $(function () {
     $('.flag-part').click(function () {
         //increase clickcounter
@@ -73,39 +78,46 @@ $(function () {
         }
         // remove the actual color of the part of the flag and add the next color:
         if (indexColors[indexFlag] == 0) {
+            $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
             $(this).removeClass(countryColors[indexCountry][countryColors[indexCountry].length - 1]);
-            $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
         } else if (indexColors[indexFlag] > 0 && indexColors[indexFlag] < countryColors[indexCountry].length) {
-            $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
             $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
+            $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
         }
+        validate();
     })
+})
 
-    $('button').click(function () {
-        //Check if the answer is right
-        if (countryFlags[indexCountry][0] == indexColors[0] && countryFlags[indexCountry][1] == indexColors[1] && 
-            countryFlags[indexCountry][2] == indexColors[2]) {
-            alert('OK' + time);
+function validate() {
+    //Check if the answer is right
+    if (countryFlags[indexCountry][0] == indexColors[0] && countryFlags[indexCountry][1] == indexColors[1] &&
+        countryFlags[indexCountry][2] == indexColors[2]) {
+        setTimeout(() => {
             if (indexCountry < countries.length - 1) {
-                //reset the index and the class:
-                indexColors = [0, 0, 0];
-                $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1])
-                .removeClass(countryColors[indexCountry][2]);
-                $('.flag').removeClass(countryForm[indexCountry]);
-
-                //go to the next country, and display the name, the form and the first colors of the country:
+                deleteLevel();
+                //go to the next level: 
                 indexCountry++;
-                document.querySelector('h1').textContent = countries[indexCountry];
-                $('.flag-part').addClass(countryColors[indexCountry][0])
-                $('.flag').addClass(countryForm[indexCountry])
-
-                //update the level:
-                document.querySelector('#level').textContent = indexCountry + 1;
+                setLevel();
             } else {
                 alert('The End' + time)
             }
-        } else {
-            alert('KO');
-        }
-    })
-})
+        }, 150);
+    }
+}
+
+function deleteLevel() {
+    //reset the index and the class:
+    indexColors = [0, 0, 0];
+    $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1])
+        .removeClass(countryColors[indexCountry][2]);
+    $('.flag').removeClass(countryForm[indexCountry]);
+}
+
+function setLevel() {
+    //display the name, the form and the first colors of the country:
+    document.querySelector('h1').textContent = countries[indexCountry];
+    $('.flag-part').addClass(countryColors[indexCountry][0])
+    $('.flag').addClass(countryForm[indexCountry])
+    //update the levelcounter:
+    document.querySelector('#level').textContent = indexCountry + 1;
+}

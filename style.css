@@ -4,6 +4,7 @@
 
 .flag {
     height: 400px;
+    margin: 0px;
 }
 
 @media all and (min-width: 1199px) {
@@ -30,7 +31,7 @@
     }
 }
 
-.column {
+.row {
     display: flex;
     flex-direction: row;
 }
