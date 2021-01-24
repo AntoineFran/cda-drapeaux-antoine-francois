@@ -144,25 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $(function () {
         $('.flag-part').click(function () {
-            //increase clickcounter
-            $('#click').text(parseInt($('#click').text()) + 1);
-
             //index of the part of the flag to work on:
             let indexFlag = $(this).attr('number');
-            //set the index of the part of the flag which is concerned by the click:
-            indexColors[indexFlag]++;
-            if (indexColors[indexFlag] == countryColors[indexCountry].length) {
-                indexColors[indexFlag] = 0;
+            if (indexFlag != "") {
+                //increase clickcounter
+                $('#click').text(parseInt($('#click').text()) + 1);
+                //set the index of the part of the flag which is concerned by the click:
+                indexColors[indexFlag]++;
+                if (indexColors[indexFlag] == countryColors[indexCountry].length) {
+                    indexColors[indexFlag] = 0;
+                }
+                // remove the actual color of the part of the flag and add the next color:
+                if (indexColors[indexFlag] == 0) {
+                    $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
+                    $(this).removeClass(countryColors[indexCountry][countryColors[indexCountry].length - 1]);
+                } else if (indexColors[indexFlag] > 0 && indexColors[indexFlag] < countryColors[indexCountry].length) {
+                    $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
+                    $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
+                }
+                //check if the answer is right:
+                validation();
             }
-            // remove the actual color of the part of the flag and add the next color:
-            if (indexColors[indexFlag] == 0) {
-                $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
-                $(this).removeClass(countryColors[indexCountry][countryColors[indexCountry].length - 1]);
-            } else if (indexColors[indexFlag] > 0 && indexColors[indexFlag] < countryColors[indexCountry].length) {
-                $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
-                $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
-            }
-            validation();
         })
     })
 
@@ -205,9 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
         //display the name, the form and the first colors of the country:
         document.querySelector('.countryName').textContent = countries[indexCountry];
         $('.flag-part').addClass(countryColors[indexCountry][0]);
-        $('.flag-part:nth-of-type(1)').attr('points', countryForm[indexCountry][0])
-        $('.flag-part:nth-of-type(2)').attr('points', countryForm[indexCountry][1])
-        $('.flag-part:nth-of-type(3)').attr('points', countryForm[indexCountry][2])
+        $('.flag-part:nth-of-type(1)').attr('points', countryForm[indexCountry][0]).attr('number', '0');
+        $('.flag-part:nth-of-type(2)').attr('points', countryForm[indexCountry][1]).attr('number', '1');
+        $('.flag-part:nth-of-type(3)').attr('points', countryForm[indexCountry][2]).attr('number', '2');
         //reinitiate the clickcounter:
         $('#click').text(0);
     }
@@ -225,17 +227,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveData() {
+        //save the level, pseudo and score of the player:
         localStorage.setItem("level", document.querySelector("#level").textContent);
         localStorage.setItem("pseudo", document.querySelector(".pseudo-display").textContent);
         localStorage.setItem("score", document.querySelector("#score").textContent);
     }
 
     function loadData() {
-
+        //check if the pseudo is the same than the one register:
         if (localStorage.getItem("pseudo") == document.querySelector(".pseudo-display").textContent) {
+            //set the level and the score:
             document.getElementById("level").innerHTML = localStorage.getItem("level");
             document.getElementById("score").innerHTML = localStorage.getItem("score");
             indexCountry = levelCountry[localStorage.getItem("level") - 1];
         }
     }
+
+    $('#joker').click(function () {
+        if (document.querySelector("#score").textContent >= 1) {
+            //remove 1 point from the score:
+            document.querySelector("#score").textContent = parseInt(document.querySelector("#score").textContent) - 1;
+            let indexArea = 0;
+            //check if the answer has already been given:
+            let area = ['.flag-part:nth-of-type(1)', '.flag-part:nth-of-type(2)', '.flag-part:nth-of-type(3)'];
+            for (let i = 0; i < area.length; i++) {
+                if ($(area[indexArea]).attr('number') == "") {
+                    indexArea++;
+                }
+            }
+            //give one answer and freeze its area:
+            indexColors[indexArea] = countryFlags[indexCountry][indexArea];
+            $(area[indexArea]).removeClass(countryColors[indexCountry][indexArea]).removeClass(countryColors[indexCountry])
+                .removeClass(countryColors[indexCountry]);
+            $(area[indexArea]).addClass(countryColors[indexCountry][countryFlags[indexCountry][indexArea]]).attr('number', '');
+            //check if the answer is right:
+            validation()
+        }
+    });
 });

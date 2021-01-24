@@ -14,20 +14,23 @@
     <!-- start popup page -->
     <div id="start-popup" aria-hidden="true" class="popup">
         <div class="popup-box">
-                <h1>cda-flags</h1>
-                <h3>instructions:</h3>
-                <p>
-                    Cda-flags is a quizz of flag guessing! The goal of this game is to guess as many and as fast as possible the flag 
-                    of the countries displayed at the top of the page. You'll have to make match the colors of the pattern under the 
-                    country name with the colors of its flag by clicking on the different area of the pattern. <br>
-                  
-                    <img width="100%" src="exemple.png" alt="exemple" class="mt-2 mb-2">
-                    As you can see on the exemple above, the game has different levels, a chrono, and count the number of clicks you 
-                    made to guess a flag country. <br>
-                    Good luck and have fun with flags!
-                </p>
-                <input type="text" id="pseudo">
-                <button class="btn btn-primary start" type="button">Start</button>
+            <h1>cda-flags</h1>
+            <h3>instructions:</h3>
+            <p>
+                Cda-flags is a quizz of flag guessing! The goal of this game is to guess as many and as fast as possible
+                the flag
+                of the countries displayed at the top of the page. You'll have to make match the colors of the pattern
+                under the
+                country name with the colors of its flag by clicking on the different area of the pattern. <br>
+
+                <img width="100%" src="exemple.png" alt="exemple" class="mt-2 mb-2">
+                As you can see on the exemple above, the game has different levels, a chrono, and count the number of
+                clicks you
+                made to guess a flag country. <br>
+                Good luck and have fun with flags!
+            </p>
+            <input type="text" id="pseudo">
+            <button class="btn btn-primary start" type="button">Start</button>
         </div>
     </div>
 
@@ -36,12 +39,16 @@
     <!-- end popup page -->
     <div id="end-popup" aria-hidden="true" class="popup">
         <div class="popup-box">
-                <h1 class="pseudo-display-popup"></h1>
-                <ul>
-                    <li id="test"><h4>You finished the level <span id="nbLevel"></span>.</h4></li>
-                    <li><h4>Your total score is <span id="levelScore"></span>.</h4></li>
-                </ul>  
-                <button class="btn btn-primary next-level" type="button">Next Level</button>
+            <h1 class="pseudo-display-popup"></h1>
+            <ul>
+                <li id="test">
+                    <h4>You finished the level <span id="nbLevel"></span>.</h4>
+                </li>
+                <li>
+                    <h4>Your total score is <span id="levelScore"></span>.</h4>
+                </li>
+            </ul>
+            <button class="btn btn-primary next-level" type="button">Next Level</button>
         </div>
     </div>
 
@@ -61,11 +68,15 @@
         <div class="d-flex justify-content-center" id="chrono"></div>
         <div class="flag row">
             <svg class="svg" height="336px" width="200px" viewport="0 0 100 100">
-                <polygon number="0" class="flag-part" />
-                <polygon number="1" class="flag-part" />
-                <polygon number="2" class="flag-part" />
+                <polygon class="flag-part" />
+                <polygon class="flag-part" />
+                <polygon class="flag-part" />
             </svg>
         </div>
+        <div class="mt-3 d-flex justify-content-around">
+            <button id="joker" class="btn btn-primary">Joker</button>
+            <button id="leave" class="btn btn-danger">Leave</button>
+        </div>  
     </div>
 
 
