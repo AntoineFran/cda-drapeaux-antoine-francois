@@ -26,6 +26,7 @@
                     made to guess a flag country. <br>
                     Good luck and have fun with flags!
                 </p>
+                <input type="text" id="pseudo">
                 <button class="btn btn-primary start" type="button">Start</button>
         </div>
     </div>
@@ -35,11 +36,11 @@
     <!-- end popup page -->
     <div id="end-popup" aria-hidden="true" class="popup">
         <div class="popup-box">
-                <h1>cda-flags</h1>
-                <h3>Score:</h3>
+                <h1 class="pseudo-display-popup"></h1>
                 <ul>
-                    <li>Your score for this level is: <span id="levelScore"></span>.</li>
-                </ul>
+                    <li id="test"><h4>You finished the level <span id="nbLevel"></span>.</h4></li>
+                    <li><h4>Your total score is <span id="levelScore"></span>.</h4></li>
+                </ul>  
                 <button class="btn btn-primary next-level" type="button">Next Level</button>
         </div>
     </div>
@@ -49,8 +50,9 @@
     <!-- main page -->
     <div class="container-sm mt-5 rounded">
         <nav class="navbar navbar-light bg-light rounded">
+            <div class="pseudo-display"></div>
             <div class="container-sm bg-light">
-                <div>level: <span id="level">1</span>/6</div>
+                <div>level: <span id="level">1</span></div>
                 <div>score: <span id="score">0</span></div>
                 <div>clicks: <span id="click">0</span></div>
             </div>

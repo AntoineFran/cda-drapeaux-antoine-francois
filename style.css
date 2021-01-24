@@ -29,9 +29,13 @@
     opacity: 0;
 }
 
-.start {
+.start, #pseudo {
     margin-top: 5px;
     width: 100%;
+}
+
+.pseudo-display {
+    margin: auto;
 }
 
 

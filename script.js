@@ -16,7 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $(function () {
         $('.start').click(function () {
+            var pseudo = document.querySelector("#pseudo").value;
+            document.querySelector(".pseudo-display").textContent = pseudo;
             startPopupClose();
+            loadData();
+            //Set the first level:
+            setDisplay();
             chronoStart();
         });
     });
@@ -26,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var endPopup = document.getElementById('end-popup');
 
     const endPopupOpen = function () {
+        document.querySelector(".pseudo-display-popup").textContent = $('.pseudo-display').text();
+        document.querySelector("#nbLevel").textContent = $("#level").text();
         document.querySelector('#levelScore').textContent = $('#score').text();
         endPopup.setAttribute('aria-hidden', false);
     };
@@ -95,38 +102,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
-
-
     //index of the color to show on each part of the flag:
     var indexColors = [0, 0, 0];
     //index of the country to guess:
     var indexCountry = 0;
+    var levelCountry = [0, 1, 3, 5];
 
     //flags pattern:
-    var col3 = ["0,0 0,200 111,200 111,0", "112,0 112,200 223,200 223,0", "224,0 224,200 336,200 336,0"];
-    var row3 = ["0,0 336,0 336,66 0,66", "0,67 336,67 336,133 0,133", "0,134 336,134 336,200 0,200"];
-    var row2 = ["0,0 336,0 336,100 0,100", "0,101 336,101 336,200 0,200", "0,0 0,0 0,0 0,0"];
-    var triangle1Row2 = ["0,0 100,100 0,200", "1,0 336,0 336,100 101,100", "101,101 336,101 336,200 0,200"]
+    var flagsPatternData = '{"col3":["0,0 0,200 111,200 111,0", "112,0 112,200 223,200 223,0", "224,0 224,200 336,200 336,0"], "row3":["0,0 336,0 336,66 0,66", "0,67 336,67 336,133 0,133", "0,134 336,134 336,200 0,200"], "row2":["0,0 336,0 336,100 0,100", "0,101 336,101 336,200 0,200", "0,0 0,0 0,0 0,0"], "triangle1Row2":["0,0 100,100 0,200", "1,0 336,0 336,100 101,100", "101,101 336,101 336,200 0,200"]}';
+    var flagsPattern = JSON.parse(flagsPatternData);
+
 
     //colors, form, and index of the right answer for every country:
     var frenchColors = ['red', 'blue', 'white'];
-    var frenchForm = col3;
+    var frenchForm = flagsPattern.col3;
     var frenchFlag = [1, 2, 0];
     var belgiumColors = ['black', 'red', 'yellow'];
-    var belgiumForm = col3;
+    var belgiumForm = flagsPattern.col3;
     var belgiumFlag = [0, 2, 1];
     var netherlandsColors = ['blue', 'white', 'red'];
-    var netherlandsForm = row3;
+    var netherlandsForm = flagsPattern.row3;
     var netherlandsFlag = [2, 1, 0];
     var germanColors = ['yellow', 'black', 'red'];
-    var germanForm = row3;
+    var germanForm = flagsPattern.row3;
     var germanFlag = [1, 2, 0];
     var polishColors = ['green', 'red', 'white'];
-    var polishForm = row2;
+    var polishForm = flagsPattern.row2;
     var polishFlag = [2, 1, 0];
     var czechRepublicColors = ['red', 'white', 'blue'];
-    var czechRepublicForm = triangle1Row2;
+    var czechRepublicForm = flagsPattern.triangle1Row2;
     var czechRepublicFlag = [2, 1, 0];
 
     //arrays of the countries, their colors, their form, and their flags:
@@ -135,8 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm, polishForm, czechRepublicForm];
     var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag, polishFlag, czechRepublicFlag];
 
-    //Set the first level:
-    setLevel();
+
 
 
     $(function () {
@@ -169,36 +172,43 @@ document.addEventListener('DOMContentLoaded', () => {
             countryFlags[indexCountry][2] == indexColors[2]) {
             pointsCalculator();
             setTimeout(() => {
-                if (indexCountry < countries.length - 1) {
-                    deleteLevel();
+                if (indexCountry % 2 != 0) {
+                    deleteDisplay();
                     //go to the next level and reinitiate the chrono: 
                     indexCountry++;
-                    setLevel();
+                    setDisplay();
                     chronoInit();
                 } else {
-                    chronoPause();
                     endPopupOpen();
+                    $('#level').text(parseInt($('#level').text()) + 1);
+                    saveData();
+                    deleteDisplay();
+                    //go to the next level and reinitiate the chrono: 
+                    indexCountry++;
+                    setDisplay();
+                    chronoInit();
+                    chronoPause();
+                    //update the levelcounter:
                 }
             }, 150);
         }
     }
 
-    function deleteLevel() {
+    function deleteDisplay() {
         //reset the index and the class:
         indexColors = [0, 0, 0];
         $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1])
             .removeClass(countryColors[indexCountry][2]);
     }
 
-    function setLevel() {
+    function setDisplay() {
         //display the name, the form and the first colors of the country:
         document.querySelector('.countryName').textContent = countries[indexCountry];
         $('.flag-part').addClass(countryColors[indexCountry][0]);
         $('.flag-part:nth-of-type(1)').attr('points', countryForm[indexCountry][0])
         $('.flag-part:nth-of-type(2)').attr('points', countryForm[indexCountry][1])
         $('.flag-part:nth-of-type(3)').attr('points', countryForm[indexCountry][2])
-        //update the levelcounter and reinitiate the clickcounter:
-        document.querySelector('#level').textContent = indexCountry + 1;
+        //reinitiate the clickcounter:
         $('#click').text(0);
     }
 
@@ -206,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //calcul the number of points to add every level:
         const optimumNbrOfClick = countryFlags[indexCountry][0] + countryFlags[indexCountry][1] + countryFlags[indexCountry][2];
         if ($('#click').text() <= optimumNbrOfClick && parseInt(time / 100) <= optimumNbrOfClick) {
-            $('#score').text(parseInt($('#score').text()) + 3); 
+            $('#score').text(parseInt($('#score').text()) + 3);
         } else if (parseInt(time / 100) <= optimumNbrOfClick) {
             $('#score').text(parseInt($('#score').text()) + 2);
         } else {
@@ -214,4 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function saveData() {
+        localStorage.setItem("level", document.querySelector("#level").textContent);
+        localStorage.setItem("pseudo", document.querySelector(".pseudo-display").textContent);
+        localStorage.setItem("score", document.querySelector("#score").textContent);
+    }
+
+    function loadData() {
+
+        if (localStorage.getItem("pseudo") == document.querySelector(".pseudo-display").textContent) {
+            document.getElementById("level").innerHTML = localStorage.getItem("level");
+            document.getElementById("score").innerHTML = localStorage.getItem("score");
+            indexCountry = levelCountry[localStorage.getItem("level") - 1];
+        }
+    }
 });
