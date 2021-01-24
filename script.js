@@ -1,9 +1,35 @@
 "use strict"
 
+document.addEventListener('DOMContentLoaded', () => { 
+  const doc = document.querySelector('.starter-popup');
+  var dialog = document.getElementById('dialog');
+  const start = document.getElementsByClassName('start');
+
+  const open = function () {
+    dialog.setAttribute('aria-hidden', false);
+  };
+
+  const close = function () {
+    dialog.setAttribute('aria-hidden', true);
+  };
+
+  open();
+
+  $(function () {
+    $('.start').click(function () {
+        chronoStart()
+        close();
+    });
+  });
+});
+
+
+
+
 //chrono:
 var chrono = document.querySelector("#chrono");
 var time = 0;
-var count;
+var count;  
 
 
 function chronoStart() {
@@ -30,8 +56,7 @@ function addZero(x) {
     }
 }
 
-//start the chrono:
-chronoStart();
+
 
 
 
@@ -119,5 +144,5 @@ function setLevel() {
     $('.flag-part').addClass(countryColors[indexCountry][0])
     $('.flag').addClass(countryForm[indexCountry])
     //update the levelcounter:
-    document.querySelector('#level').textContent = indexCountry + 1;
+    document.querySelector ('#level').textContent = indexCountry + 1;
 }
