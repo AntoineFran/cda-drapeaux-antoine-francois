@@ -26,9 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var endPopup = document.getElementById('end-popup');
 
     const endPopupOpen = function () {
-        document.querySelector('#clickScore').textContent = $('#click').text();
-        document.querySelector('#levelScore').textContent = "XXX";
-
+        document.querySelector('#levelScore').textContent = $('#score').text();
         endPopup.setAttribute('aria-hidden', false);
     };
 
@@ -124,9 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var germanColors = ['yellow', 'black', 'red'];
     var germanForm = row3;
     var germanFlag = [1, 2, 0];
-    var polishColors = ['red', 'white'];
+    var polishColors = ['green', 'red', 'white'];
     var polishForm = row2;
-    var polishFlag = [1, 0, 0];
+    var polishFlag = [2, 1, 0];
     var czechRepublicColors = ['red', 'white', 'blue'];
     var czechRepublicForm = triangle1Row2;
     var czechRepublicFlag = [2, 1, 0];
@@ -169,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //Check if the answer is right
         if (countryFlags[indexCountry][0] == indexColors[0] && countryFlags[indexCountry][1] == indexColors[1] &&
             countryFlags[indexCountry][2] == indexColors[2]) {
+            pointsCalculator();
             setTimeout(() => {
                 if (indexCountry < countries.length - 1) {
                     deleteLevel();
@@ -204,11 +203,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pointsCalculator() {
-        // nbr de click / chrono: nbr de click - 2 : 3
-        
-        // chrono : nbr de click - 2 : 2
-        // found
-
+        //calcul the number of points to add every level:
+        const optimumNbrOfClick = countryFlags[indexCountry][0] + countryFlags[indexCountry][1] + countryFlags[indexCountry][2];
+        if ($('#click').text() <= optimumNbrOfClick && parseInt(time / 100) <= optimumNbrOfClick) {
+            $('#score').text(parseInt($('#score').text()) + 3); 
+        } else if (parseInt(time / 100) <= optimumNbrOfClick) {
+            $('#score').text(parseInt($('#score').text()) + 2);
+        } else {
+            $('#score').text(parseInt($('#score').text()) + 1);
+        }
     }
 
 });
