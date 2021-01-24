@@ -79,6 +79,11 @@
     flex-direction: column;
 }
 
+/* countries area: */
+.delete{
+    display: none
+}
+
 
 /* countries color */
 .white {

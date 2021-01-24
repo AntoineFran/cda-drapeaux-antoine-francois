@@ -68,22 +68,31 @@ var indexCountry = 0;
 //colors, form, and index of the right answer for every country:
 var frenchColors = ['blue', 'white', 'red'];
 var frenchForm = 'row'
+var frenchNbrOfAreas = 3;
 var frenchFlag = [0, 1, 2];
 var belgiumColors = ['black', 'yellow', 'red'];
 var belgiumForm = 'row';
+var belgiumNbrOfAreas = 3;
 var belgiumFlag = [0, 1, 2];
 var netherlandsColors = ['blue', 'white', 'red'];
 var netherlandsForm = 'column'
+var netherlandsNbrOfAreas = 3;
 var netherlandsFlag = [2, 1, 0];
 var germanColors = ['black', 'yellow', 'red'];
 var germanForm = 'column';
+var germanNbrOfAreas = 3;
 var germanFlag = [0, 2, 1];
+var polishColors = ['white', 'red'];
+var polishForm = 'column';
+var polishNbrOfAreas = 2;
+var polishFlag = [0, 1, 0];
 
 //arrays of the countries, their colors, their form, and their flags:
-var countries = ['France', 'Belgium', 'Netherlands', 'Germany'];
-var countryColors = [frenchColors, belgiumColors, netherlandsColors, germanColors];
-var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm];
-var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag];
+var countries = ['France', 'Belgium', 'Netherlands', 'Germany', 'Poland'];
+var countryColors = [frenchColors, belgiumColors, netherlandsColors, germanColors, polishColors];
+var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm, polishForm];
+var countryNbrOfAreas = [3, 3, 3, 3, 2];
+var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag, polishFlag];
 
 //Set the first level:
 setLevel();
@@ -134,7 +143,7 @@ function deleteLevel() {
     //reset the index and the class:
     indexColors = [0, 0, 0];
     $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1])
-        .removeClass(countryColors[indexCountry][2]);
+        .removeClass(countryColors[indexCountry][2]).removeClass('delete');
     $('.flag').removeClass(countryForm[indexCountry]);
 }
 
@@ -142,6 +151,9 @@ function setLevel() {
     //display the name, the form and the first colors of the country:
     document.querySelector('h1').textContent = countries[indexCountry];
     $('.flag-part').addClass(countryColors[indexCountry][0])
+    if(countryNbrOfAreas[indexCountry] == 2){
+        $('.flag-part:nth-of-type(3)').addClass('delete')
+    }
     $('.flag').addClass(countryForm[indexCountry])
     //update the levelcounter:
     document.querySelector ('#level').textContent = indexCountry + 1;
