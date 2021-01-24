@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $(function () {
         $('.start').click(function () {
-            chronoStart()
             startPopupClose();
+            chronoStart();
         });
     });
 
@@ -26,10 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var endPopup = document.getElementById('end-popup');
 
     const endPopupOpen = function () {
-        document.querySelector('#levelChrono').textContent = time;
         document.querySelector('#clickScore').textContent = $('#click').text();
         document.querySelector('#levelScore').textContent = "XXX";
-    
+
         endPopup.setAttribute('aria-hidden', false);
     };
 
@@ -57,26 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
         chrono.paramTps = time;
         var startTime = new Date();
         count = setInterval(() => {
-            var seconds = Math.round(
-                (new Date().getTime() - startTime.getTime()) / 1000 + chrono.paramTps);
+            var tenthSeconds = Math.round(
+                (new Date().getTime() - startTime.getTime()) / 10 + chrono.paramTps);
+
+            var seconds = parseInt(tenthSeconds / 100);
+            tenthSeconds = tenthSeconds % 100;
 
             var minutes = parseInt(seconds / 60);
             seconds = seconds % 60;
 
-            chrono.innerHTML = addZero(minutes) + ":" + addZero(seconds);
+            chrono.innerHTML = addZero(minutes) + ":" + addZero(seconds) + ":" + addZero(tenthSeconds);
             time++;
-        }, 1000);
+        }, 10);
     }
 
-    function chronoPause(){
-        if (chrono.value != "off"){
-         chrono.value = "off";
-         clearInterval(count)
-        } else{
+    function chronoPause() {
+        if (chrono.value != "off") {
+            chrono.value = "off";
+            clearInterval(count)
+        } else {
             chronoStart()
             chrono.value = "on";
         }
-     };
+    };
+
+    function chronoInit() {
+        time = 0;
+        chrono.value = "on";
+        clearInterval(count);
+        chronoStart();
+    };
 
     //set the chrono display
     function addZero(x) {
@@ -103,24 +112,24 @@ document.addEventListener('DOMContentLoaded', () => {
     var triangle1Row2 = ["0,0 100,100 0,200", "1,0 336,0 336,100 101,100", "101,101 336,101 336,200 0,200"]
 
     //colors, form, and index of the right answer for every country:
-    var frenchColors = ['blue', 'white', 'red'];
+    var frenchColors = ['red', 'blue', 'white'];
     var frenchForm = col3;
-    var frenchFlag = [0, 1, 2];
-    var belgiumColors = ['black', 'yellow', 'red'];
+    var frenchFlag = [1, 2, 0];
+    var belgiumColors = ['black', 'red', 'yellow'];
     var belgiumForm = col3;
-    var belgiumFlag = [0, 1, 2];
+    var belgiumFlag = [0, 2, 1];
     var netherlandsColors = ['blue', 'white', 'red'];
     var netherlandsForm = row3;
     var netherlandsFlag = [2, 1, 0];
-    var germanColors = ['black', 'yellow', 'red'];
+    var germanColors = ['yellow', 'black', 'red'];
     var germanForm = row3;
-    var germanFlag = [0, 2, 1];
-    var polishColors = ['white', 'red'];
+    var germanFlag = [1, 2, 0];
+    var polishColors = ['red', 'white'];
     var polishForm = row2;
-    var polishFlag = [0, 1, 0];
-    var czechRepublicColors = ['blue', 'white', 'red'];
+    var polishFlag = [1, 0, 0];
+    var czechRepublicColors = ['red', 'white', 'blue'];
     var czechRepublicForm = triangle1Row2;
-    var czechRepublicFlag = [0, 1, 2];
+    var czechRepublicFlag = [2, 1, 0];
 
     //arrays of the countries, their colors, their form, and their flags:
     var countries = ['France', 'Belgium', 'The Netherlands', 'Germany', 'Poland', 'The Czech Republic'];
@@ -152,20 +161,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
                 $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
             }
-            validate();
+            validation();
         })
     })
 
-    function validate() {
+    function validation() {
         //Check if the answer is right
         if (countryFlags[indexCountry][0] == indexColors[0] && countryFlags[indexCountry][1] == indexColors[1] &&
             countryFlags[indexCountry][2] == indexColors[2]) {
             setTimeout(() => {
                 if (indexCountry < countries.length - 1) {
                     deleteLevel();
-                    //go to the next level: 
+                    //go to the next level and reinitiate the chrono: 
                     indexCountry++;
                     setLevel();
+                    chronoInit();
                 } else {
                     chronoPause();
                     endPopupOpen();
@@ -188,7 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
         $('.flag-part:nth-of-type(1)').attr('points', countryForm[indexCountry][0])
         $('.flag-part:nth-of-type(2)').attr('points', countryForm[indexCountry][1])
         $('.flag-part:nth-of-type(3)').attr('points', countryForm[indexCountry][2])
-        //update the levelcounter:
+        //update the levelcounter and reinitiate the clickcounter:
         document.querySelector('#level').textContent = indexCountry + 1;
+        $('#click').text(0);
     }
+
+    function pointsCalculator() {
+        // nbr de click / chrono: nbr de click - 2 : 3
+        
+        // chrono : nbr de click - 2 : 2
+        // found
+
+    }
+
 });

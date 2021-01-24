@@ -38,7 +38,6 @@
                 <h1>cda-flags</h1>
                 <h3>Score:</h3>
                 <ul>
-                    <li>Your chrono for this level is: <span id="levelChrono"></span>.</li>
                     <li>Your number of clicks for this level is: <span id="clickScore"></span>.</li>
                     <li>Your score for this level is: <span id="levelScore"></span>.</li>
                 </ul>
@@ -53,11 +52,12 @@
         <nav class="navbar navbar-light bg-light rounded">
             <div class="container-sm bg-light">
                 <div>level: <span id="level">1</span>/6</div>
-                <div>chrono: <span id="chrono">00:00</span></div>
+                <div>score: <span id="score">0</span></div>
                 <div>clicks: <span id="click">0</span></div>
             </div>
         </nav>
         <h1 class="countryName d-flex justify-content-center mb-1"></h1>
+        <div class="d-flex justify-content-center" id="chrono"></div>
         <div class="flag row">
             <svg class="svg" height="336px" width="200px" viewport="0 0 100 100">
                 <polygon number="0" class="flag-part" />
