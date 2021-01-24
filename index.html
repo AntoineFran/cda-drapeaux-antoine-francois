@@ -11,37 +11,43 @@
 
 <body>
 
- <!-- starter popup page -->
-    <div id="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-desc" aria-modal="true"
-        aria-hidden="true" tabindex="-1" class="starter-popup">
-        <div role="document" class="starter-popup-box">
-            <div class="container popup">
-                <h1>cda-flags:</h1>
+    <!-- start popup page -->
+    <div id="start-popup" aria-hidden="true" class="popup">
+        <div class="popup-box">
+                <h1>cda-flags</h1>
                 <h3>instructions:</h3>
                 <p>
-                    Cda-flags is a quizz of flag guessing! The goal of this game is easy, there is the name of a country
-                    displayed at the top of the page and you have to reconstruct its flag.
-                    To succeed in your mission you'll have to click on the different area of the flag to change their
-                    color and
-                    make them match with the flag of the country requested.
-                    Once you did find the flag requested, the next country will appear directly and you'll have to find
-                    its
-                    flag.
-                    As you can see on the exemple below the game has different level, a chrono, and count the number of
-                    clicks
-                    you used to guess a flag.
+                    Cda-flags is a quizz of flag guessing! The goal of this game is to guess as many and as fast as possible the flag 
+                    of the countries displayed at the top of the page. You'll have to make match the colors of the pattern under the 
+                    country name with the colors of its flag by clicking on the different area of the pattern. <br>
+                  
+                    <img width="100%" src="exemple.png" alt="exemple" class="mt-2 mb-2">
+                    As you can see on the exemple above, the game has different levels, a chrono, and count the number of clicks you 
+                    made to guess a flag country. <br>
+                    Good luck and have fun with flags!
                 </p>
-                <img width="100%" src="exemple.png" alt="exemple">
                 <button class="btn btn-primary start" type="button">Start</button>
-            </div>
         </div>
     </div>
 
 
-    
-    
-    
-    
+
+    <!-- end popup page -->
+    <div id="end-popup" aria-hidden="true" class="popup">
+        <div class="popup-box">
+                <h1>cda-flags</h1>
+                <h3>Score:</h3>
+                <ul>
+                    <li>Your chrono for this level is: <span id="levelChrono"></span>.</li>
+                    <li>Your number of clicks for this level is: <span id="clickScore"></span>.</li>
+                    <li>Your score for this level is: <span id="levelScore"></span>.</li>
+                </ul>
+                <button class="btn btn-primary next-level" type="button">Next Level</button>
+        </div>
+    </div>
+
+
+
     <!-- main page -->
     <div class="container-sm mt-5 rounded">
         <nav class="navbar navbar-light bg-light rounded">
@@ -54,9 +60,9 @@
         <h1 class="countryName d-flex justify-content-center mb-1"></h1>
         <div class="flag row">
             <svg class="svg" height="336px" width="200px" viewport="0 0 100 100">
-                <polygon number="0" class="flag-part"/>
-                <polygon number="1" class="flag-part"/>
-                <polygon number="2" class="flag-part"/>  
+                <polygon number="0" class="flag-part" />
+                <polygon number="1" class="flag-part" />
+                <polygon number="2" class="flag-part" />
             </svg>
         </div>
     </div>

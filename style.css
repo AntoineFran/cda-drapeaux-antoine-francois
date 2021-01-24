@@ -1,5 +1,5 @@
-/* starter popup: */
-.starter-popup {
+/* start popup: */
+.popup {
     position: fixed;
     z-index: 100;
     top: 0;
@@ -15,7 +15,7 @@
 }
 
 
-.starter-popup-box {
+.popup-box {
     flex: 1;
     max-width: 48rem;
     margin: auto;
@@ -24,7 +24,7 @@
     border: 1px solid black;
 }
 
-.starter-popup[aria-hidden="true"] {
+.popup[aria-hidden="true"] {
     visibility: hidden;
     opacity: 0;
 }
