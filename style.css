@@ -38,6 +38,7 @@
 /* main page */
 .container-sm {
     background-color: grey;
+    padding-bottom: 5px;
 }
 
 @media all and (min-width: 1199px) {
@@ -64,21 +65,6 @@
     }
 }
 
-.flag-part {
-    border:  0.1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* countries form */
-.row {
-    display: flex;
-    flex-direction: row;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-}
-
 /* countries area: */
 .delete{
     display: none
@@ -87,25 +73,25 @@
 
 /* countries color */
 .white {
-    background-color: white;
+    fill: white;
 }
 
 .yellow {
-    background-color: yellow;
+    fill: yellow;
 }
 
 .blue {
-    background-color: blue;
+    fill: blue;
 }
 
 .red {
-    background-color: red;
+    fill: red;
 }
 
 .green {
-    background-color: green;
+    fill: green;
 }
 
 .black {
-    background-color: black;
+    fill: black;
 }
