@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $(function () {
         $('.next-level').click(function () {
-            chronoStart()
+            chronoPause();
             endPopupClose();
         });
     });
@@ -67,6 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
             time++;
         }, 1000);
     }
+
+    function chronoPause(){
+        if (chrono.value != "off"){
+         chrono.value = "off";
+         clearInterval(count)
+        } else{
+            chronoStart()
+            chrono.value = "on";
+        }
+     };
 
     //set the chrono display
     function addZero(x) {
@@ -157,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     indexCountry++;
                     setLevel();
                 } else {
+                    chronoPause();
                     endPopupOpen();
                 }
             }, 150);
