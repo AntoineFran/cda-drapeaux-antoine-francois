@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             countryFlags[indexCountry][2] == indexColors[2]) {
             pointsCalculator();
             setTimeout(() => {
-                if (indexCountry % 2 != 0) {
+                if (indexCountry % 2 != 0 && indexCountry < countries.length - 1) {
                     deleteDisplay();
                     //go to the next level and reinitiate the chrono: 
                     indexCountry++;
@@ -185,12 +185,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     $('#level').text(parseInt($('#level').text()) + 1);
                     saveData();
                     deleteDisplay();
-                    //go to the next level and reinitiate the chrono: 
-                    indexCountry++;
-                    setDisplay();
-                    chronoInit();
-                    chronoPause();
-                    //update the levelcounter:
+                    if (indexCountry < countries.length - 1) {   
+                        //go to the next level and reinitiate the chrono: 
+                        indexCountry++;
+                        setDisplay();
+                        chronoInit();
+                        chronoPause();
+                        //update the levelcounter:
+                        $('#level').text(parseInt($('#level').text()) + 1);
+                    }
                 }
             }, 150);
         }
@@ -263,5 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
             //check if the answer is right:
             validation()
         }
+    });
+
+    $('#give-up').click(function() {
+        deleteDisplay();
+        indexCountry++;
+        if (levelCountry.includes(indexCountry)){
+            $('#level').text(parseInt($('#level').text()) + 1);
+        }
+        setDisplay();
+        chronoInit();
+        chronoPause();
+        endPopupOpen();
     });
 });
