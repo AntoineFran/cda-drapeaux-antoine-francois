@@ -7,7 +7,6 @@
  var indexCountry = 0;
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     //start popup page:
     var startPopup = document.getElementById('start-popup');
@@ -55,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             endPopupClose();
         });
     });
-
 
     //flag game:
     $(function () {
@@ -147,8 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadData() {
-        //check if the pseudo is the same than the one register:
-        if (localStorage.getItem("pseudo") == document.querySelector(".pseudo-display").textContent) {
+        //check if the pseudo is the same than the one register and if the player didn't finish the game already:
+        if (localStorage.getItem("pseudo") == document.querySelector(".pseudo-display").textContent && localStorage.getItem("level") < countries.country.length) {
             //set the level and the score:
             document.getElementById("level").innerHTML = (parseInt(localStorage.getItem("level"))+1);
             document.getElementById("score").innerHTML = localStorage.getItem("score");

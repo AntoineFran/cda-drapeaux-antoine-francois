@@ -1,17 +1,30 @@
+
+
 /* start popup: */
 .popup {
     position: fixed;
     z-index: 100;
+    display: flex;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    background-color: rgba(black, .75);
+    transition: .5s;
+}
+
+#start-popup{
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    display: flex;
-    padding: 2.4rem;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    background-color: rgba(black, .75);
-    transition: .2s;
+    padding: 0rem;
+}
+
+
+
+
+#end-popup{
+top: 185px;
+left: 25px;
 }
 
 
@@ -19,8 +32,8 @@
     flex: 1;
     max-width: 48rem;
     margin: auto;
-    padding: 2.4rem;
-    background-color: white;
+    padding: 1.5rem;
+    background-color: burlywood;
     border: 1px solid black;
 }
 
@@ -29,9 +42,16 @@
     opacity: 0;
 }
 
-.start, #pseudo {
+.start, .next-level, #pseudo {
     margin-top: 5px;
     width: 100%;
+}
+
+#joker {
+    background-color: mediumaquamarine;
+}
+#give-up {
+    background-color: brown;
 }
 
 .pseudo-display {
@@ -41,9 +61,19 @@
 
 /* main page */
 .container-sm {
-    background-color: grey;
     padding-bottom: 5px;
 }
+
+.navbar {
+    background-color: lightsteelblue;
+    font-style: bold;
+}
+
+.countryName, #chrono {
+    color: lightsteelblue;
+}
+
+
 
 @media all and (min-width: 1199px) {
     .flag {
