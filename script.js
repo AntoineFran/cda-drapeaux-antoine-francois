@@ -1,16 +1,10 @@
 "use strict"
 
-//import of the countries data (json):
-const loadJson = (url) => {
-    let json = $.getJSON({
-        'url': url,
-        'async': false
-    });
-    json = JSON.parse(json.responseText);
-    return json;
-}
-//save the data in the var countries:
-var countries = loadJson("countries.json");
+
+ //index of the color to show on each part of the flag:
+ var indexColors = [0, 0, 0];
+ //index of the country to guess:
+ var indexCountry = 0;
 
 
 
@@ -63,18 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
-
- 
-
-
-    //index of the color to show on each part of the flag:
-    var indexColors = [0, 0, 0];
-    //index of the country to guess:
-    var indexCountry = 0;
-
-
-
+    //flag game:
     $(function () {
         $('.flag-part').click(function () {
             //index of the part of the flag to work on:
@@ -107,22 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
             countries.country[indexCountry].flag[2] == indexColors[2]) {
             pointsCalculator();
             setTimeout(() => {
+                //open the end level popup, save the stats and reset the display:
+                endPopupOpen();
+                saveData();
+                deleteDisplay();
                 if (indexCountry < countries.country.length - 1) {
-                    //open the end level popup:
-                    endPopupOpen();
-                    saveData();
-                    deleteDisplay();
                     //go to the next level and reinitiate the chrono: 
                     indexCountry++;
-                    //update the levelcounter:
-                    $('#level').text(parseInt($('#level').text()) + 1);
-                    setDisplay();
                     chronoInit();
                     chronoPause();
+                    //update the levelcounter and display the next level:
+                    $('#level').text(parseInt($('#level').text()) + 1);
+                    setDisplay();
                 } else {
                     chronoStop();
-                    endPopupOpen();
-                    deleteDisplay();
                 }
             }, 150);
         }
@@ -147,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pointsCalculator() {
-        //calcul the number of points to add every level:
+        //calcul the number of points won:
         const optimumNbrOfClick = countries.country[indexCountry].flag[0] + countries.country[indexCountry].flag[1] + countries.country[indexCountry].flag[2];
         if ($('#click').text() <= optimumNbrOfClick && parseInt(time / 100) <= optimumNbrOfClick) {
             $('#score').text(parseInt($('#score').text()) + 3);
@@ -169,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //check if the pseudo is the same than the one register:
         if (localStorage.getItem("pseudo") == document.querySelector(".pseudo-display").textContent) {
             //set the level and the score:
-            document.getElementById("level").innerHTML = localStorage.getItem("level");
+            document.getElementById("level").innerHTML = (parseInt(localStorage.getItem("level"))+1);
             document.getElementById("score").innerHTML = localStorage.getItem("score");
             indexCountry = localStorage.getItem("level");
         }
@@ -197,15 +178,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     $('#give-up').click(function () {
-        deleteDisplay();
+        //open the end level popup, save the stats and reset the display:
         endPopupOpen();
+        saveData();
+        deleteDisplay();
         if (indexCountry < countries.country.length - 1) {
+            //go to the next level and reinitiate the chrono: 
             indexCountry++;
-            $('#level').text(parseInt($('#level').text()) + 1);
-            setDisplay();
             chronoInit();
             chronoPause();
+            //update the levelcounter and display the next level:
+            $('#level').text(parseInt($('#level').text()) + 1);
+            setDisplay();
         } else {
             chronoStop()
         }
