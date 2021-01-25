@@ -1,5 +1,19 @@
 "use strict"
 
+//import of the countries data (json):
+const loadJson = (url) => {
+    let json = $.getJSON({
+        'url': url,
+        'async': false
+    });
+    json = JSON.parse(json.responseText);
+    return json;
+}
+//save the data in the var countries:
+var countries = loadJson("countries.json");
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     //start popup page:
     var startPopup = document.getElementById('start-popup');
@@ -51,94 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    //chrono:
-    var chrono = document.querySelector("#chrono");
-    var time = 0;
-    var count;
-
-
-    function chronoStart() {
-        chrono.paramTps = time;
-        var startTime = new Date();
-        count = setInterval(() => {
-            var tenthSeconds = Math.round(
-                (new Date().getTime() - startTime.getTime()) / 10 + chrono.paramTps);
-
-            var seconds = parseInt(tenthSeconds / 100);
-            tenthSeconds = tenthSeconds % 100;
-
-            var minutes = parseInt(seconds / 60);
-            seconds = seconds % 60;
-
-            chrono.innerHTML = addZero(minutes) + ":" + addZero(seconds) + ":" + addZero(tenthSeconds);
-            time++;
-        }, 10);
-    }
-
-    function chronoPause() {
-        if (chrono.value != "off") {
-            chrono.value = "off";
-            clearInterval(count)
-        } else {
-            chronoStart()
-            chrono.value = "on";
-        }
-    };
-
-    function chronoInit() {
-        time = 0;
-        chrono.value = "on";
-        clearInterval(count);
-        chronoStart();
-    };
-
-    //set the chrono display
-    function addZero(x) {
-        if (x <= 10) {
-            return '0' + x;
-        } else {
-            return x = '' + x
-        }
-    }
+ 
 
 
     //index of the color to show on each part of the flag:
     var indexColors = [0, 0, 0];
     //index of the country to guess:
     var indexCountry = 0;
-    var levelCountry = [0, 1, 3, 5];
-
-    //flags pattern:
-    var flagsPatternData = '{"col3":["0,0 0,200 111,200 111,0", "112,0 112,200 223,200 223,0", "224,0 224,200 336,200 336,0"], "row3":["0,0 336,0 336,66 0,66", "0,67 336,67 336,133 0,133", "0,134 336,134 336,200 0,200"], "row2":["0,0 336,0 336,100 0,100", "0,101 336,101 336,200 0,200", "0,0 0,0 0,0 0,0"], "triangle1Row2":["0,0 100,100 0,200", "1,0 336,0 336,100 101,100", "101,101 336,101 336,200 0,200"]}';
-    var flagsPattern = JSON.parse(flagsPatternData);
-
-
-    //colors, form, and index of the right answer for every country:
-    var frenchColors = ['red', 'blue', 'white'];
-    var frenchForm = flagsPattern.col3;
-    var frenchFlag = [1, 2, 0];
-    var belgiumColors = ['black', 'red', 'yellow'];
-    var belgiumForm = flagsPattern.col3;
-    var belgiumFlag = [0, 2, 1];
-    var netherlandsColors = ['blue', 'white', 'red'];
-    var netherlandsForm = flagsPattern.row3;
-    var netherlandsFlag = [2, 1, 0];
-    var germanColors = ['yellow', 'black', 'red'];
-    var germanForm = flagsPattern.row3;
-    var germanFlag = [1, 2, 0];
-    var polishColors = ['green', 'red', 'white'];
-    var polishForm = flagsPattern.row2;
-    var polishFlag = [2, 1, 0];
-    var czechRepublicColors = ['red', 'white', 'blue'];
-    var czechRepublicForm = flagsPattern.triangle1Row2;
-    var czechRepublicFlag = [2, 1, 0];
-
-    //arrays of the countries, their colors, their form, and their flags:
-    var countries = ['France', 'Belgium', 'The Netherlands', 'Germany', 'Poland', 'The Czech Republic'];
-    var countryColors = [frenchColors, belgiumColors, netherlandsColors, germanColors, polishColors, czechRepublicColors];
-    var countryForm = [frenchForm, belgiumForm, netherlandsForm, germanForm, polishForm, czechRepublicForm];
-    var countryFlags = [frenchFlag, belgiumFlag, netherlandsFlag, germanFlag, polishFlag, czechRepublicFlag];
-
 
 
 
@@ -151,16 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#click').text(parseInt($('#click').text()) + 1);
                 //set the index of the part of the flag which is concerned by the click:
                 indexColors[indexFlag]++;
-                if (indexColors[indexFlag] == countryColors[indexCountry].length) {
+                if (indexColors[indexFlag] == countries.country[indexCountry].colors.length) {
                     indexColors[indexFlag] = 0;
                 }
                 // remove the actual color of the part of the flag and add the next color:
                 if (indexColors[indexFlag] == 0) {
-                    $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
-                    $(this).removeClass(countryColors[indexCountry][countryColors[indexCountry].length - 1]);
-                } else if (indexColors[indexFlag] > 0 && indexColors[indexFlag] < countryColors[indexCountry].length) {
-                    $(this).addClass(countryColors[indexCountry][indexColors[indexFlag]]);
-                    $(this).removeClass(countryColors[indexCountry][indexColors[indexFlag] - 1]);
+                    $(this).addClass(countries.country[indexCountry].colors[indexColors[indexFlag]]);
+                    $(this).removeClass(countries.country[indexCountry].colors[countries.country[indexCountry].colors.length - 1]);
+                } else if (indexColors[indexFlag] > 0 && indexColors[indexFlag] < countries.country[indexCountry].colors.length) {
+                    $(this).addClass(countries.country[indexCountry].colors[indexColors[indexFlag]]);
+                    $(this).removeClass(countries.country[indexCountry].colors[indexColors[indexFlag] - 1]);
                 }
                 //check if the answer is right:
                 validation();
@@ -170,30 +103,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validation() {
         //Check if the answer is right
-        if (countryFlags[indexCountry][0] == indexColors[0] && countryFlags[indexCountry][1] == indexColors[1] &&
-            countryFlags[indexCountry][2] == indexColors[2]) {
+        if (countries.country[indexCountry].flag[0] == indexColors[0] && countries.country[indexCountry].flag[1] == indexColors[1] &&
+            countries.country[indexCountry].flag[2] == indexColors[2]) {
             pointsCalculator();
             setTimeout(() => {
-                if (indexCountry % 2 != 0 && indexCountry < countries.length - 1) {
+                if (indexCountry < countries.country.length - 1) {
+                    //open the end level popup:
+                    endPopupOpen();
+                    saveData();
                     deleteDisplay();
                     //go to the next level and reinitiate the chrono: 
                     indexCountry++;
+                    //update the levelcounter:
+                    $('#level').text(parseInt($('#level').text()) + 1);
                     setDisplay();
                     chronoInit();
+                    chronoPause();
                 } else {
+                    chronoStop();
                     endPopupOpen();
-                    $('#level').text(parseInt($('#level').text()) + 1);
-                    saveData();
                     deleteDisplay();
-                    if (indexCountry < countries.length - 1) {   
-                        //go to the next level and reinitiate the chrono: 
-                        indexCountry++;
-                        setDisplay();
-                        chronoInit();
-                        chronoPause();
-                        //update the levelcounter:
-                        $('#level').text(parseInt($('#level').text()) + 1);
-                    }
                 }
             }, 150);
         }
@@ -202,24 +131,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function deleteDisplay() {
         //reset the index and the class:
         indexColors = [0, 0, 0];
-        $('.flag-part').removeClass(countryColors[indexCountry][0]).removeClass(countryColors[indexCountry][1])
-            .removeClass(countryColors[indexCountry][2]);
+        $('.flag-part').removeClass(countries.country[indexCountry].colors[0]).removeClass(countries.country[indexCountry].colors[1])
+            .removeClass(countries.country[indexCountry].colors[2]);
     }
 
     function setDisplay() {
         //display the name, the form and the first colors of the country:
-        document.querySelector('.countryName').textContent = countries[indexCountry];
-        $('.flag-part').addClass(countryColors[indexCountry][0]);
-        $('.flag-part:nth-of-type(1)').attr('points', countryForm[indexCountry][0]).attr('number', '0');
-        $('.flag-part:nth-of-type(2)').attr('points', countryForm[indexCountry][1]).attr('number', '1');
-        $('.flag-part:nth-of-type(3)').attr('points', countryForm[indexCountry][2]).attr('number', '2');
+        document.querySelector('.countryName').textContent = countries.country[indexCountry].name;
+        $('.flag-part').addClass(countries.country[indexCountry].colors[0]);
+        $('.flag-part:nth-of-type(1)').attr('points', countries.country[indexCountry].form[0]).attr('number', '0');
+        $('.flag-part:nth-of-type(2)').attr('points', countries.country[indexCountry].form[1]).attr('number', '1');
+        $('.flag-part:nth-of-type(3)').attr('points', countries.country[indexCountry].form[2]).attr('number', '2');
         //reinitiate the clickcounter:
         $('#click').text(0);
     }
 
     function pointsCalculator() {
         //calcul the number of points to add every level:
-        const optimumNbrOfClick = countryFlags[indexCountry][0] + countryFlags[indexCountry][1] + countryFlags[indexCountry][2];
+        const optimumNbrOfClick = countries.country[indexCountry].flag[0] + countries.country[indexCountry].flag[1] + countries.country[indexCountry].flag[2];
         if ($('#click').text() <= optimumNbrOfClick && parseInt(time / 100) <= optimumNbrOfClick) {
             $('#score').text(parseInt($('#score').text()) + 3);
         } else if (parseInt(time / 100) <= optimumNbrOfClick) {
@@ -242,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //set the level and the score:
             document.getElementById("level").innerHTML = localStorage.getItem("level");
             document.getElementById("score").innerHTML = localStorage.getItem("score");
-            indexCountry = levelCountry[localStorage.getItem("level") - 1];
+            indexCountry = localStorage.getItem("level");
         }
     }
 
@@ -259,24 +188,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             //give one answer and freeze its area:
-            indexColors[indexArea] = countryFlags[indexCountry][indexArea];
-            $(area[indexArea]).removeClass(countryColors[indexCountry][indexArea]).removeClass(countryColors[indexCountry])
-                .removeClass(countryColors[indexCountry]);
-            $(area[indexArea]).addClass(countryColors[indexCountry][countryFlags[indexCountry][indexArea]]).attr('number', '');
+            indexColors[indexArea] = countries.country[indexCountry].flag[indexArea];
+            $(area[indexArea]).removeClass(countries.country[indexCountry].colors[indexArea]).removeClass(countries.country[indexCountry].colors)
+                .removeClass(countries.country[indexCountry].colors);
+            $(area[indexArea]).addClass(countries.country[indexCountry].colors[countries.country[indexCountry].flag[indexArea]]).attr('number', '');
             //check if the answer is right:
             validation()
         }
     });
 
-    $('#give-up').click(function() {
+    $('#give-up').click(function () {
         deleteDisplay();
-        indexCountry++;
-        if (levelCountry.includes(indexCountry)){
-            $('#level').text(parseInt($('#level').text()) + 1);
-        }
-        setDisplay();
-        chronoInit();
-        chronoPause();
         endPopupOpen();
+        if (indexCountry < countries.country.length - 1) {
+            indexCountry++;
+            $('#level').text(parseInt($('#level').text()) + 1);
+            setDisplay();
+            chronoInit();
+            chronoPause();
+        } else {
+            chronoStop()
+        }
     });
 });
