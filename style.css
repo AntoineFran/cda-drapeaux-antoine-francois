@@ -5,8 +5,7 @@
     position: fixed;
     z-index: 100;
     display: flex;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+
     background-color: rgba(black, .75);
     transition: .5s;
 }
@@ -17,15 +16,14 @@
     bottom: 0;
     left: 0;
     padding: 0rem;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 
 
 
-#end-popup{
-top: 185px;
-left: 25px;
-}
+
 
 
 .popup-box {
@@ -74,30 +72,6 @@ left: 25px;
 }
 
 
-
-@media all and (min-width: 1199px) {
-    .flag {
-        height: 600px;
-    }
-}
-
-@media all and (max-width: 1199px) {
-    .flag {
-        height: 500px;
-    }
-}
-
-@media all and (max-width: 991px) {
-    .flag {
-        height: 300px;
-    }
-}
-
-@media all and (max-width: 767px) {
-    .flag {
-        height: 200px;
-    }
-}
 
 /* countries area: */
 .delete{

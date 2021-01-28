@@ -87,24 +87,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (countries.country[indexCountry].flag[0] == indexColors[0] && countries.country[indexCountry].flag[1] == indexColors[1] &&
             countries.country[indexCountry].flag[2] == indexColors[2]) {
             pointsCalculator();
-            setTimeout(() => {
-                //open the end level popup, save the stats and reset the display:
-                endPopupOpen();
-                saveData();
-                deleteDisplay();
-                if (indexCountry < countries.country.length - 1) {
-                    //go to the next level and reinitiate the chrono: 
-                    indexCountry++;
-                    chronoInit();
-                    chronoPause();
-                    //update the levelcounter and display the next level:
-                    $('#level').text(parseInt($('#level').text()) + 1);
-                    setDisplay();
-                } else {
-                    chronoStop();
-                }
-            }, 150);
+            levelTransition();
         }
+    }
+
+    function levelTransition() {
+        setTimeout(() => {
+            //open the end level popup, save the stats and reset the display:
+            endPopupOpen();
+            saveData();
+            deleteDisplay();
+            if (indexCountry < countries.country.length - 1) {
+                //go to the next level and reinitiate the chrono: 
+                indexCountry++;
+                chronoInit();
+                chronoPause();
+                //update the levelcounter and display the next level:
+                $('#level').text(parseInt($('#level').text()) + 1);
+                setDisplay();
+            } else {
+                chronoStop();
+                $('.flag').hide();
+                $('.btn').hide();
+            }
+        }, 150);
     }
 
     function deleteDisplay() {
@@ -178,20 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#give-up').click(function () {
-        //open the end level popup, save the stats and reset the display:
-        endPopupOpen();
-        saveData();
-        deleteDisplay();
-        if (indexCountry < countries.country.length - 1) {
-            //go to the next level and reinitiate the chrono: 
-            indexCountry++;
-            chronoInit();
-            chronoPause();
-            //update the levelcounter and display the next level:
-            $('#level').text(parseInt($('#level').text()) + 1);
-            setDisplay();
-        } else {
-            chronoStop()
-        }
+        levelTransition();
     });
 });
