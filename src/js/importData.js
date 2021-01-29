@@ -1,5 +1,6 @@
 "use strict"
 
+
 //import of the countries data (json):
 const loadJson = (url) => {
     let json = $.getJSON({
@@ -10,5 +11,5 @@ const loadJson = (url) => {
     return json;
 }
 //save the data in the var countries:
-var countries = loadJson("countries.json");
+var countries = loadJson("bdd/countries.json");
 

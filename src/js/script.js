@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    $('#give-up').click(function () {
+    $('#give-up').click(function() {
         levelTransition();
     });
 });
