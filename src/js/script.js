@@ -177,8 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
             $(area[indexArea]).removeClass(countries.country[indexCountry].colors[indexArea]).removeClass(countries.country[indexCountry].colors)
                 .removeClass(countries.country[indexCountry].colors);
             $(area[indexArea]).addClass(countries.country[indexCountry].colors[countries.country[indexCountry].flag[indexArea]]).attr('number', '');
-            //check if the answer is right:
-            validation()
+            //check if the answer is correct:
+            validation();
         }
     });
 

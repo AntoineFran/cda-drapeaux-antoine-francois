@@ -27,7 +27,7 @@
                 under the
                 country name with the colors of its flag by clicking on the different area of the pattern. <br>
 
-                <img width="100%" src="view/exemple.png" alt="exemple" class="mt-2 mb-2">
+                <img width="100%" src="view/exemple.png" alt="exemple" class="my-2">
                 As you can see on the exemple above, the game has different levels, a chrono, and count the number of
                 clicks you
                 made to guess a flag country. <br>
@@ -41,18 +41,20 @@
 
 
     <!-- end popup page -->
-    <div class="d-flex justify-content-center position-absolute top-50 w-100 popup row" id="end-popup" aria-hidden="true">
+    <div class="d-flex justify-content-center position-absolute top-50 w-100 translate-middle-y popup row"
+        id="end-popup" aria-hidden="true">
         <div class="col-3"></div>
         <div class="popup-box col-6">
+            <div class="d-flex justify-content-center">
+                <img width="50%" src="view/earth.jpg" alt="earth">
+            </div>
             <h1 class="pseudo-display-popup d-flex-center"></h1>
-            <ul>
-                <li id="test">
-                    <h4>You finished the level <span id="nbLevel"></span>.</h4>
-                </li>
-                <li>
-                    <h4>Your total score is <span id="levelScore"></span>.</h4>
-                </li>
-            </ul>
+            <p id="test">
+            <h4>Level <span id="nbLevel"></span> completed.</h4>
+            </p>
+            <p>
+            <h4>Your total score is <span id="levelScore"></span>.</h4>
+            </p>
             <button class="btn btn-secondary next-level" type="button">Next Level</button>
         </div>
         <div class="col-3"></div>
@@ -81,7 +83,7 @@
         <nav class="navbar rounded">
             <div class="pseudo-display"></div>
             <div class="container">
-                <div>level: <span id="level">1</span></div>
+                <div>level: <span id="level">1</span>/6</div>
                 <div>score: <span id="score">0</span></div>
                 <div>clicks: <span id="click">0</span></div>
             </div>
